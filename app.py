@@ -32,6 +32,23 @@ def add_transaction():
     return redirct(url_for('get_transactions'))
   
 # Update operation
+@app.route('/edit/<int:transaction_id>', methods=['GET','POST'])
+def edit_transaction(transaction_id):
+  if request.method == 'GET':
+    for transaction in default_transactions:
+      if transaction['id'] == transaction_id:
+        return render_template('edit.html', transaction)
+  if request.method == 'POST':
+    date = request.form['date']
+    amount = float(request.form['amount'])
+
+    for transaction in default_transactions:
+      if transaction['id'] == transaction_id:
+        transaction['date'] = date
+        transaction['amount'] = amount
+        break
+      
+    return redirct(url_for('get_transactions'))  
 
 # Delete operation
 
